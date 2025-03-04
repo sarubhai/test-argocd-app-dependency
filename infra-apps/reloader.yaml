@@ -3,21 +3,21 @@ kind: Application
 metadata:
   name: reloader
   namespace: argo-cd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
   annotations:
     argocd.argoproj.io/sync-wave: "2"
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
     repoURL: https://github.com/sarubhai/test-argocd-app-dependency.git
     targetRevision: HEAD
     path: infra-charts/reloader
-    helm:
-      releaseName: reloader
-      valueFiles:
-        - values.yaml
-      version: v3
+    # helm:
+    #   releaseName: reloader
+    #   valueFiles:
+    #     - values.yaml
+    #   version: v3
   destination:
     name: in-cluster
     namespace: reloader

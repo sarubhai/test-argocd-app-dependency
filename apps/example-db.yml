@@ -4,7 +4,7 @@ metadata:
   name: my-db
   namespace: argo-cd
   annotations:
-    argocd.argoproj.io/sync-wave: "1"    
+    argocd.argoproj.io/sync-wave: "1"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -19,7 +19,6 @@ spec:
   syncPolicy:
     automated: 
       prune: true
-      selfHeal: true 
+      selfHeal: true
     syncOptions:
       - CreateNamespace=true
-  
