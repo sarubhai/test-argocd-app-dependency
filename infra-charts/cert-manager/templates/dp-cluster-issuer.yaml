@@ -1,0 +1,77 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: selfsigned-cluster-issuer
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+    helm.sh/hook-weight: "1"
+spec:
+  selfSigned: {}
+
+---
+
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: dp-selfsigned-ca
+  namespace: cert-manager
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+    helm.sh/hook-weight: "2"
+spec:
+  isCA: true
+  issuerRef:
+    name: selfsigned-cluster-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io
+  secretName: dp-ss-ca-root-secret # Distribute this CA's public cert (tls.crt) to all namespaces/services
+  commonName: Data Platform Selfsigned CA # Comment Out
+  
+  subject:
+    organizations:
+      - appdev24
+    organizationalUnits:
+      - dp
+    countries:
+      - DE
+    localities:
+      - Berlin
+    provinces:
+      - Berlin
+    streetAddresses:
+      - Panoramastrasse 1A
+    postalCodes:
+      - "10178"
+  emailAddresses:
+    - saurav.karate@gmail.com
+  
+  privateKey:
+    algorithm: RSA
+    size: 2048
+  usages: # signing, data encipherment, cert sign, crl sign, encipher only, server auth, client auth, any
+    - digital signature
+    - key encipherment
+  duration: 2160h # 90d
+  renewBefore: 360h # 15d
+
+  additionalOutputFormats:
+    - type: CombinedPEM # DER
+  # keystores:
+  #   jks:
+  #     create: true
+  #     passwordSecretRef:
+  #       name: dp-ss-ca-root-jks-secret
+  #       key: jks-password
+
+---
+
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: dp-selfsigned-ca-issuer
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+    helm.sh/hook-weight: "3"
+spec:
+  ca:
+    secretName: dp-ss-ca-root-secret

@@ -1,0 +1,124 @@
+cert-manager:
+  global:
+    rbac:
+      create: true
+      aggregateClusterRoles: true
+    logLevel: 2
+  crds:
+    enabled: true
+    keep: true
+  replicaCount: 1
+  # featureGates: ""
+  maxConcurrentChallenges: 60
+  serviceAccount:
+    create: true
+    name: "cert-manager"
+    automountServiceAccountToken: true
+  
+  enableCertificateOwnerRef: true
+  dns01RecursiveNameservers: ""
+  dns01RecursiveNameserversOnly: false
+  disableAutoApproval: false
+  approveSignerNames:
+  - issuers.cert-manager.io/*
+  - clusterissuers.cert-manager.io/*
+
+  resources:
+    requests:
+      cpu: 10m
+      memory: 32Mi
+    limits:
+      cpu: 100m
+      memory: 128Mi
+
+  # nodeSelector:
+  # affinity: {}
+  # tolerations: []
+  # topologySpreadConstraints: []
+  
+  enableServiceLinks: false
+  
+  prometheus:
+    enabled: true
+    servicemonitor:
+      enabled: false
+      namespace: monitoring
+      # prometheusInstance: default
+      targetPort: 9402
+      path: /metrics
+      interval: 60s
+      scrapeTimeout: 30s
+      endpointAdditionalProperties: {}
+
+  webhook:
+    replicaCount: 1
+    # featureGates: ""
+    timeoutSeconds: 30
+    resources:
+      requests:
+        cpu: 10m
+        memory: 32Mi
+      limits:
+        cpu: 100m
+        memory: 128Mi
+    # serviceAccount:
+    #   create: true
+    #   name: ""
+    #   annotations: {}
+    #   automountServiceAccountToken: true
+    securePort: 10250
+    hostNetwork: false
+    serviceType: ClusterIP
+    enableServiceLinks: false
+
+  cainjector:
+    enabled: true
+    replicaCount: 1
+    # featureGates: ""
+    resources:
+      requests:
+        cpu: 10m
+        memory: 32Mi
+      limits:
+        cpu: 100m
+        memory: 128Mi
+    # serviceAccount:
+    #   create: true
+    #   name: ""
+    #   annotations: {}
+    #   automountServiceAccountToken: true
+    enableServiceLinks: false
+
+  # acmesolver:
+    
+  startupapicheck:
+    enabled: true
+    timeout: 1m
+    backoffLimit: 4
+    jobAnnotations:
+      helm.sh/hook: post-install
+      helm.sh/hook-weight: "1"
+      helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+    extraArgs:
+    - -v
+    resources:
+      requests:
+        cpu: 10m
+        memory: 32Mi
+      limits:
+        cpu: 100m
+        memory: 128Mi
+    rbac:
+      annotations:
+        helm.sh/hook: post-install
+        helm.sh/hook-weight: "-5"
+        helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+    serviceAccount:
+      create: true
+      # name: ""
+      annotations:
+        helm.sh/hook: post-install
+        helm.sh/hook-weight: "-5"
+        helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+      automountServiceAccountToken: true
+    enableServiceLinks: false

@@ -1,10 +1,10 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: external-secrets
+  name: cert-manager
   namespace: argo-cd
   annotations:
-    argocd.argoproj.io/sync-wave: "3"
+    argocd.argoproj.io/sync-wave: "1"
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -12,15 +12,15 @@ spec:
   source:
     repoURL: https://github.com/sarubhai/test-argocd-app-dependency.git
     targetRevision: HEAD
-    path: infra-charts/external-secrets
+    path: infra-charts/cert-manager
     # helm:
-    #   releaseName: external-secrets
+    #   releaseName: cert-manager
     #   valueFiles:
     #     - values.yaml
     #   version: v3
   destination:
     name: in-cluster
-    namespace: external-secrets
+    namespace: cert-manager
   syncPolicy:
     automated: 
       prune: true

@@ -1,0 +1,19 @@
+apiVersion: v2
+name: trust-manager
+description: A Helm chart for trust-manager, which is the easiest way to manage TLS trust bundles in Kubernetes clusters
+type: application
+version: 0.16.0
+# appVersion: v0.16.0
+maintainers:
+  - name: sarubhai
+    email: saurav.karate@gmail.com
+keywords:
+  - trust-manager
+  - cert-manager
+  - tls
+  - trust bundle
+  - trust anchor
+dependencies:
+  - name: trust-manager
+    version: 0.16.0
+    repository: https://charts.jetstack.io

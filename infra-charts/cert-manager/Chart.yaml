@@ -1,0 +1,18 @@
+apiVersion: v2
+name: cert-manager
+description: A Helm chart for cert-manager
+type: application
+version: 1.17.0
+# appVersion: v1.17.0
+maintainers:
+  - name: sarubhai
+    email: saurav.karate@gmail.com
+keywords:
+  - cert-manager
+  - kube-lego
+  - letsencrypt
+  - tls
+dependencies:
+  - name: cert-manager
+    version: 1.17.0
+    repository: https://charts.jetstack.io
