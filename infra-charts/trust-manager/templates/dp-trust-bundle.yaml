@@ -1,0 +1,37 @@
+apiVersion: trust.cert-manager.io/v1alpha1
+kind: Bundle
+metadata:
+  name: dp-trust-bundle  # The bundle name will also be used for the target
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+    helm.sh/hook-weight: "1"
+spec:
+  sources:
+  # Include a bundle of publicly trusted certificates which can be
+  # used to validate most TLS certificates on the internet, such as
+  # those issued by Let's Encrypt, Google, Amazon and others.
+  # - useDefaultCAs: true
+
+  # A Secret in the "trust" namespace
+  - secret:
+      name: "dp-ss-ca-root-secret"
+      key: "tls.crt"
+
+  target:
+    # Sync the bundle to a Secret called `dp-trust-bundle` in every namespace which
+    # has the label "dp-trust-bundle/inject=enabled"
+    # All Secret will include a PEM-formatted bundle, here named "dp-certs.pem"
+    # and in this case we also request binary formatted bundles in JKS and PKCS#12 formats,
+    # here named "bundle.jks" and "bundle.p12".
+    secret:
+      key: "dp-certs.pem"
+    additionalFormats:
+      jks:
+        key: "truststore.jks"
+        # https://cert-manager.io/docs/faq/#why-are-passwords-on-jks-or-pkcs12-files-not-helpful
+        password: "dptsjksS3cret"
+      pkcs12:
+        key: "bundle.p12"
+    namespaceSelector:
+      matchLabels:
+        dp-trust-bundle/inject: "enabled"
