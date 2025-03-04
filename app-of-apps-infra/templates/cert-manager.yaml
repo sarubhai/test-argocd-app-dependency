@@ -15,7 +15,7 @@ spec:
   source:
     repoURL: https://github.com/sarubhai/test-argocd-app-dependency.git
     targetRevision: {{ .infra.certManager.version }}
-    path: infra-charts/reloader
+    path: infra-charts/cert-manager
     helm:
       releaseName: cert-manager
       valueFiles:

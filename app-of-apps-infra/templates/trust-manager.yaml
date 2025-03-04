@@ -15,7 +15,7 @@ spec:
   source:
     repoURL: https://github.com/sarubhai/test-argocd-app-dependency.git
     targetRevision: {{ .infra.trustManager.version }}
-    path: infra-charts/reloader
+    path: infra-charts/trust-manager
     helm:
       releaseName: trust-manager
       valueFiles:
