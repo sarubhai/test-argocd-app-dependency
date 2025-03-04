@@ -19,7 +19,7 @@ spec:
         - values.yaml
       version: v3
   destination:
-    name: reloader
+    name: in-cluster
     namespace: reloader
   syncPolicy:
     automated: 
