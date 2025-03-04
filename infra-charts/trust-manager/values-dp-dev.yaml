@@ -1,0 +1,62 @@
+trust-manager:
+  crds:
+    enabled: true
+    keep: true
+  replicaCount: 1
+  
+  defaultPackage:
+    enabled: true
+    resources:
+      limits:
+        cpu: 100m
+        memory: 128Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+
+  secretTargets:
+    enabled: true
+    authorizedSecretsAll: true
+
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+
+  filterExpiredCertificates:
+    enabled: false
+
+  app:
+    logFormat: text
+    logLevel: 1
+    leaderElection:
+      leaseDuration: 15s
+      renewDeadline: 10s
+    trust:
+      namespace: cert-manager
+    webhook:
+      host: 0.0.0.0
+      port: 6443
+      timeoutSeconds: 5
+      service:
+        type: ClusterIP
+      tls:
+        helmCert:
+          enabled: false
+        approverPolicy:
+          enabled: false
+          certManagerNamespace: "cert-manager"
+          certManagerServiceAccount: "cert-manager"
+    metrics:
+      port: 9402
+      service:
+        enabled: true
+        type: ClusterIP
+        servicemonitor:
+          enabled: false
+          # prometheusInstance: default
+          interval: 10s
+          scrapeTimeout: 5s

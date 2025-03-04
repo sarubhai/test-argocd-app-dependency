@@ -1,0 +1,39 @@
+{{- range .Values.clusters }}
+{{- if .infra.enabled }}
+{{- if .infra.certManager.enabled }}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{printf "%s-%s" .name "cert-manager"}}
+  namespace: argo-cd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/sarubhai/test-argocd-app-dependency.git
+    targetRevision: {{ .infra.certManager.version }}
+    path: infra-charts/reloader
+    helm:
+      releaseName: cert-manager
+      valueFiles:
+        - {{ .infra.valueFiles }}
+      version: v3
+  destination:
+    name: {{ .name }}
+    namespace: cert-manager
+  syncPolicy:
+    automated: 
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      # - ApplyOutOfSyncOnly=true
+      - ServerSideApply=true
+      # - RespectIgnoreDifferences=true
+{{- end }}
+{{- end }}
+---
+{{- end }}

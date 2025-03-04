@@ -1,0 +1,19 @@
+# Variables values for Chart templates
+clusters:
+  - name: in-cluster
+    infra:
+      enabled: true
+      version: HEAD
+      valueFiles: values-dp-dev.yaml
+      externalSecrets:
+        enabled: true
+        version: HEAD
+      reloader:
+        enabled: true
+        version: HEAD
+      certManager:
+        enabled: true
+        version: HEAD
+      trustManager:
+        enabled: true
+        version: HEAD
