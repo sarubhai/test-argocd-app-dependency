@@ -1,0 +1,59 @@
+external-secrets:
+  global:
+    compatibility:
+      openshift:
+        adaptSecurityContext: auto
+  replicaCount: 1
+  installCRDs: true
+  crds:
+    createClusterExternalSecret: true
+    createClusterSecretStore: true
+    createClusterGenerator: true
+    createPushSecret: true
+    conversion:
+      enabled: true
+  serviceAccount:
+    create: true
+    name: external-secrets
+  rbac:
+    create: true
+    servicebindings:
+      create: true
+  resources:
+    requests:
+      cpu: 10m
+      memory: 32Mi
+    limits:
+      # cpu: 100m
+      memory: 128Mi
+  serviceMonitor:
+    enabled: false
+  metrics:
+    listen:
+      port: 8080
+    service:
+      enabled: false
+      port: 8080
+  webhook:
+    create: true
+    replicaCount: 1
+    port: 10250
+    certManager:
+      enabled: false
+    resources:
+      requests:
+        cpu: 10m
+        memory: 32Mi
+      limits:
+        # cpu: 100m
+        memory: 128Mi
+  certController:
+    create: true
+    replicaCount: 1
+    resources:
+      requests:
+        cpu: 10m
+        memory: 32Mi
+      limits:
+        # cpu: 100m
+        memory: 128Mi
