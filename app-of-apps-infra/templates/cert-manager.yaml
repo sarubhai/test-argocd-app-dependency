@@ -17,7 +17,7 @@ spec:
     targetRevision: {{ .infra.certManager.version }}
     path: infra-charts/cert-manager
     helm:
-      releaseName: cert-manager
+      # releaseName: cert-manager
       valueFiles:
         - {{ .infra.valueFiles }}
       version: v3
@@ -25,14 +25,15 @@ spec:
     name: {{ .name }}
     namespace: cert-manager
   syncPolicy:
-    # automated: 
-    #   prune: true
-    #   selfHeal: true
+    automated: 
+      prune: true
+      selfHeal: true
     syncOptions:
       - CreateNamespace=true
       # - ApplyOutOfSyncOnly=true
       - ServerSideApply=true
       # - RespectIgnoreDifferences=true
+      - Validate=false
 {{- end }}
 {{- end }}
 ---
