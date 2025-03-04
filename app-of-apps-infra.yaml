@@ -10,7 +10,8 @@ spec:
   source:
     repoURL: https://github.com/sarubhai/test-argocd-app-dependency.git
     targetRevision: HEAD
-    path: infra-apps
+    # path: infra-apps
+    path: app-of-apps-infra
   destination:
     name: in-cluster
     namespace: default
