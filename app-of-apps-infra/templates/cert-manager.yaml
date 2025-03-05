@@ -30,10 +30,11 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-      # - ApplyOutOfSyncOnly=true
       - ServerSideApply=true
-      # - RespectIgnoreDifferences=true
+      - SkipDryRunOnMissingResource=true
       - Validate=false
+      # - ApplyOutOfSyncOnly=true
+      # - RespectIgnoreDifferences=true
 {{- end }}
 {{- end }}
 ---
