@@ -34,7 +34,13 @@ spec:
       - SkipDryRunOnMissingResource=true
       - Validate=false
       # - ApplyOutOfSyncOnly=true
-      # - RespectIgnoreDifferences=true
+      - RespectIgnoreDifferences=true
+  ignoreDifferences:
+    - group: "apiextensions.k8s.io"
+      kind: "CustomResourceDefinition"
+      jsonPointers:
+        - "/metadata/annotations"
+
 {{- end }}
 {{- end }}
 ---
