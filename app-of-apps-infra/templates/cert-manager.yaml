@@ -17,7 +17,7 @@ spec:
     targetRevision: {{ .infra.certManager.version }}
     path: infra-charts/cert-manager
     helm:
-      # releaseName: cert-manager
+      releaseName: cert-manager
       valueFiles:
         - {{ .infra.valueFiles }}
       version: v3
@@ -34,12 +34,12 @@ spec:
       - SkipDryRunOnMissingResource=true
       - Validate=false
       # - ApplyOutOfSyncOnly=true
-      - RespectIgnoreDifferences=true
-  ignoreDifferences:
-    - group: "apiextensions.k8s.io"
-      kind: "CustomResourceDefinition"
-      jsonPointers:
-        - "/metadata/annotations"
+      # - RespectIgnoreDifferences=true
+  # ignoreDifferences:
+  #   - group: "apiextensions.k8s.io"
+  #     kind: "CustomResourceDefinition"
+  #     jsonPointers:
+  #       - "/metadata/annotations"
 
 {{- end }}
 {{- end }}
